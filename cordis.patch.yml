@@ -15,9 +15,9 @@
 #     * ~/.npm-global/bin/zion-mcp v1.0.8 — the project-level .mcp.json MCP;
 #       7 tools, essentially read-only (get_projects / get_project_schema /
 #       mock-data seeding). This is the WRONG one to migrate alone.
-#     * zion-mcp@2.3.0 — what the Claude zion-nocode plugin actually spawns
-#       (its bin/zion-mcp is an `npx -y zion-mcp@2.3.0` wrapper and its
-#       mcp.json runs `zion-mcp@2.3.0 mcp`); 42 tools including the full
+#     * zion-mcp@2.6.2 — what the Claude zion-nocode plugin actually spawns
+#       (its bin/zion-mcp is an `npx -y zion-mcp@2.6.2` wrapper and its
+#       mcp.json runs `zion-mcp@2.6.2 mcp`); 46 tools including the full
 #       mutation surface: database / actionflow / permissions / tpa / zai /
 #       sync_backend (publish) / deploy_static_site / schema undo-redo.
 #   We spawn the exact same command the plugin edition uses (npx + pinned
@@ -36,7 +36,7 @@
 #   ~/.npm afterwards). failOnStartupError stays false so a missing npx
 #   degrades to "no zion tools" instead of breaking profile boot.
 #
-# Portability: on a new machine ensure `npx -y zion-mcp@2.3.0 mcp` runs
+# Portability: on a new machine ensure `npx -y zion-mcp@2.6.2 mcp` runs
 # (Node + npm), log in once inside the project (auth tool / browser flow
 # writes .zion-mcp/), and adjust the cwd path below.
 - insert:
@@ -46,7 +46,7 @@
         serverName: zion
         transport: stdio
         command: npx
-        args: ['-y', 'zion-mcp@2.3.0', 'mcp']
+        args: ['-y', 'zion-mcp@2.6.2', 'mcp']
         cwd: /Users/lujuncheng/project/01-mesonCloud
         env:
           WORKSPACE_ROOT: /Users/lujuncheng/project/01-mesonCloud
@@ -55,7 +55,7 @@
     # Official zion-platform skill (bundled verbatim from the zion-nocode
     # marketplace plugin): orientation router + pre/post domain guidance
     # (database / actionflow / permissions / payments / assets / ai-agent /
-    # static-site / runtime-logs...), written by Zion for zion-mcp@2.3.0 —
+    # static-site / runtime-logs...), written by Zion for zion-mcp@2.6.2 —
     # exactly the binary the row above spawns. Same bundledSkillDir pattern
     # as dsh-gsd. includeDefaultRoots: false keeps default skill roots with
     # the preset's own provider; this row contributes only zion-platform.
