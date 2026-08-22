@@ -1,0 +1,53 @@
+# dsh-mcp-zion bundle patch
+#
+# Applied when the package is installed through the official CLI:
+#   dsh plugin --profile <name> add dsh-mcp-zion
+# The command appends dsh-mcp-zion to dsh.profile.bundles and the profile
+# boot merges this patch — no manual profile edits needed.
+#
+# One row: the generic MCP bridge (@deepseek-ai/dsh-mcp-client, resolved from
+# the dsh deployment's node_modules, same as the zhipu MCP rows) with the
+# Zion BaaS CLI configuration baked in.
+#
+# Decisions (2026-08 migration from Claude Code, see CLAUDE-ENV-INVENTORY.md):
+#
+# - FULL plugin edition, not the read-only one. Two editions exist:
+#     * ~/.npm-global/bin/zion-mcp v1.0.8 — the project-level .mcp.json MCP;
+#       7 tools, essentially read-only (get_projects / get_project_schema /
+#       mock-data seeding). This is the WRONG one to migrate alone.
+#     * zion-mcp@2.3.0 — what the Claude zion-nocode plugin actually spawns
+#       (its bin/zion-mcp is an `npx -y zion-mcp@2.3.0` wrapper and its
+#       mcp.json runs `zion-mcp@2.3.0 mcp`); 42 tools including the full
+#       mutation surface: database / actionflow / permissions / tpa / zai /
+#       sync_backend (publish) / deploy_static_site / schema undo-redo.
+#   We spawn the exact same command the plugin edition uses (npx + pinned
+#   version + `mcp` subcommand), so behavior and tool surface are identical
+#   to the Claude-side zion-nocode plugin. Verified live via tools/list.
+#
+# - cwd: pinned to ~/project/01-mesonCloud — zion-mcp resolves auth by
+#   walking up from cwd for a .zion-mcp/ dir holding credentials.json +
+#   project-context.json, so this reuses the existing login and project
+#   binding without extra env plumbing.
+#
+# - toolCallTimeoutMs: 180s — sync_backend (publish) and schema sessions run
+#   well past the 60s default.
+#
+# - startup: npx resolution adds a few seconds on first launch (cached in
+#   ~/.npm afterwards). failOnStartupError stays false so a missing npx
+#   degrades to "no zion tools" instead of breaking profile boot.
+#
+# Portability: on a new machine ensure `npx -y zion-mcp@2.3.0 mcp` runs
+# (Node + npm), log in once inside the project (auth tool / browser flow
+# writes .zion-mcp/), and adjust the cwd path below.
+- insert:
+    - id: mcp-zion
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: zion
+        transport: stdio
+        command: npx
+        args: ['-y', 'zion-mcp@2.3.0', 'mcp']
+        cwd: /Users/lujuncheng/project/01-mesonCloud
+        env:
+          WORKSPACE_ROOT: /Users/lujuncheng/project/01-mesonCloud
+        toolCallTimeoutMs: 180000

@@ -1,0 +1,26 @@
+{
+  "name": "dsh-mcp-zion",
+  "version": "0.1.0",
+  "description": "Zion BaaS MCP bridge for DeepSeek Harness: spawns zion-mcp@2.3.0 (the FULL plugin edition the Claude zion-nocode plugin uses — 42 tools: database / actionflow / permissions / sync_backend publish / static-site deploy) over stdio with cwd pinned to the mesonCloud workspace, exposing mcp__zion__* tools.",
+  "license": "MIT",
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "mcp",
+    "zion",
+    "mesoncloud",
+    "baas"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}
