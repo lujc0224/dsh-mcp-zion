@@ -4,6 +4,8 @@ Zion BaaS 的 DeepSeek Harness (DSH) 插件：把 `zion-mcp@2.3.0`（**插件全
 
 从 Claude Code 环境迁移而来，替代 Claude 侧 zion-nocode 插件。已端到端实测：项目上下文 / 项目列表 / 资源查询 / runtime GraphQL / schema 快照全部打通。
 
+**内置官方 `zion-platform` skill**(476K,自 zion-nocode 插件原样捆绑)：入口做项目识别与 `typeSystem` 分流，再路由到 `pre/` 或 `post/` 版本的领域指导(database / actionflow / permissions / payments / assets / ai-agent / static-site / runtime-logs 等)—— 该 skill 正是为 `zion-mcp@2.3.0` 编写的，与本插件桥接的二进制严格同版本。安装本插件即同时获得工具与说明书。
+
 ## 两个版本，别搞混
 
 | 版本 | 来源 | 工具数 | 能力 |

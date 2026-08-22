@@ -51,3 +51,17 @@
         env:
           WORKSPACE_ROOT: /Users/lujuncheng/project/01-mesonCloud
         toolCallTimeoutMs: 180000
+
+    # Official zion-platform skill (bundled verbatim from the zion-nocode
+    # marketplace plugin): orientation router + pre/post domain guidance
+    # (database / actionflow / permissions / payments / assets / ai-agent /
+    # static-site / runtime-logs...), written by Zion for zion-mcp@2.3.0 —
+    # exactly the binary the row above spawns. Same bundledSkillDir pattern
+    # as dsh-gsd. includeDefaultRoots: false keeps default skill roots with
+    # the preset's own provider; this row contributes only zion-platform.
+    - id: zion-skill-filesystem
+      name: '@deepseek-ai/dsh-skill-filesystem'
+      config:
+        providerName: zion-plugin
+        includeDefaultRoots: false
+        bundledSkillDir: !!js process.getBuiltinModule('node:path').join(process.getBuiltinModule('node:path').dirname(process.getBuiltinModule('node:module').createRequire(baseUrl).resolve('dsh-mcp-zion/package.json')), 'skills')
